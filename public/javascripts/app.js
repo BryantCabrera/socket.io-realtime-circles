@@ -1,12 +1,26 @@
 // get our connection to the socket.io server
 var socket = io();
-console.log(socket);
+console.log(socket, ' this is socket from app.js.');
+
+ // listen to the server for the `add-circle` event
+ socket.on('add-circle', function (data) {
+  console.log(data);
+});
 
 var circles = document.getElementById('circles');
 var initials = '';
 
 circles.addEventListener('click', function(evt) {
-  addCircle(evt.clientX, evt.clientY, randomBetween(10,125), getRandomRGBA());
+  // addCircle(evt.clientX, evt.clientY, randomBetween(10,125), getRandomRGBA());
+
+  // replace current line of code with this code
+  socket.emit('add-circle', {
+    initials: initials,
+    x: evt.clientX,
+    y: evt.clientY,
+    dia: randomBetween(10,100),
+    rgba: getRandomRGBA()
+  });
 });
 
 document.getElementsByTagName('button')[0].addEventListener('click', function() {
