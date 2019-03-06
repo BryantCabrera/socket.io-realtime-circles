@@ -4,7 +4,9 @@ console.log(socket, ' this is socket from app.js.');
 
 // listen to the server for the `add-circle` event
 socket.on('add-circle', function (data) {
-  console.log(data);
+  // console.log(data);
+
+  addCircle(data);
 });
 
 var circles = document.getElementById('circles');
@@ -13,7 +15,7 @@ var initials = '';
 circles.addEventListener('click', function(evt) {
   // addCircle(evt.clientX, evt.clientY, randomBetween(10,125), getRandomRGBA());
 
-  // replace current line of code with this code
+  // replace code above with this code
   socket.emit('add-circle', {
     initials: initials,
     x: evt.clientX,
