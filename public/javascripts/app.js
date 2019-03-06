@@ -2,8 +2,8 @@
 var socket = io();
 console.log(socket, ' this is socket from app.js.');
 
- // listen to the server for the `add-circle` event
- socket.on('add-circle', function (data) {
+// listen to the server for the `add-circle` event
+socket.on('add-circle', function (data) {
   console.log(data);
 });
 
@@ -36,7 +36,9 @@ function getInitials() {
   return input ? input.toUpperCase() : '';
 }
 
-function addCircle(x, y, dia, rgba) {
+// function addCircle(x, y, dia, rgba) {
+// refactor with destructuring to account for object passed in from server's emit message
+function addCircle({x, y, dia, rgba, initials}) {
   var el = document.createElement('div');
   el.style.left = x - Math.floor(dia / 2 + 0.5) + 'px';
   el.style.top = y - Math.floor(dia / 2 + 0.5) + 'px';
