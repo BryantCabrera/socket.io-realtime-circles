@@ -1,6 +1,10 @@
 // get our connection to the socket.io server
-var socket = io();
+const socket = io();
 console.log(socket, ' this is socket from app.js.');
+const circles = document.getElementById('circles');
+// players <ul> element in the footer
+const players = document.getElementById('players');
+let initials = '';
 
 // listen to the server for the `add-circle` event
 socket.on('add-circle', function (data) {
@@ -16,8 +20,11 @@ socket.on('clear', function (data) {
   circles.innerHTML = '';
 });
 
-var circles = document.getElementById('circles');
-var initials = '';
+socket.on('update-player-list', function (data) {
+  console.log(data, ' data from app.js update-player-list');
+  // const playerList = data.map(initials => {return `<li>${initials}</li>`});
+  players.innerHTML = data.map(initials => {return `<li>${initials}</li>`});
+});
 
 circles.addEventListener('click', function(evt) {
   // addCircle(evt.clientX, evt.clientY, randomBetween(10,125), getRandomRGBA());
@@ -56,9 +63,12 @@ document.getElementsByTagName('button')[0].addEventListener('click', function ()
 do {
   initials = getInitials();
 } while (initials.length < 2 || initials.length > 3);
+//sends initials to server
+socket.emit('register-player', initials);
 
 function getInitials() {
   var input = prompt("Please enter your initials.");
+
   return input ? input.toUpperCase() : '';
 }
 
