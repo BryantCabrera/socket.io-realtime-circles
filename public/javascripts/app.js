@@ -9,6 +9,13 @@ socket.on('add-circle', function (data) {
   addCircle(data);
 });
 
+socket.on('clear', function (data) {
+  //my way
+  // clear();
+
+  circles.innerHTML = '';
+});
+
 var circles = document.getElementById('circles');
 var initials = '';
 
@@ -25,16 +32,33 @@ circles.addEventListener('click', function(evt) {
   });
 });
 
-document.getElementsByTagName('button')[0].addEventListener('click', function() {
-  circles.innerHTML = '';
+//CLEAR before socket refactor
+// document.getElementsByTagName('button')[0].addEventListener('click', function() {
+//   circles.innerHTML = '';
+// });
+
+//CLEAR with socket refactor
+document.getElementsByTagName('button')[0].addEventListener('click', function () {
+  socket.emit('clear', {
+    initials: initials
+  });
 });
+
+//my way
+// function clear() {
+//   circles.innerHTML = '';
+
+//   socket.emit('clear', {
+//     initials: initials
+//   });
+// }
 
 do {
   initials = getInitials();
 } while (initials.length < 2 || initials.length > 3);
 
 function getInitials() {
-  var input = prompt("Please enter your initials");
+  var input = prompt("Please enter your initials.");
   return input ? input.toUpperCase() : '';
 }
 
